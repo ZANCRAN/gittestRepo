@@ -1,0 +1,329 @@
+12/15/2022
+---------------------------------------------------------
+tools: 
+proxmox, vmware esxii 6.5
+how to install redhat on vmware esxii
+rocky8 rocky9
+
+commandfree
+----------------------------------------------
+free -h                show memory capacity
+cat/proc/cpuinfo
+nproc                   total number of cpu
+exec bash
+
+tail, less, cat, more, echo vim a file
+
+VIM 
+--------------------------------------------
+
+vim file    vm has 2 modes, insert and commands
+
+when you pressed i you are in insertmode. press Esc to get out from insert mode and go back to command mode
+Always press escape when you finish to type
+
+ZQ quit without saving
+ZZ or :wq save and quit
+ea : insert at the end of the curent word
+cw remove the current word
+c$ : remove from the current cursor position until the end of the line
+s : replace the current character and allow you continue typing
+S : remove the whole line and allow you typing
+u: bring back last action
+dd : delete the line
+dw : delete current word
+if you want  to  copy everything : 99999 yy (try and see)
+if you want to copy 5 lines : 5 yy
+
+
+gg : jump to the first line of the file
+G : jump to the last line of the file
+
+essential tools 
+--------------------------------------------------------
+echo someting ( something become standard output)
+redirect command > ( it redirect standard output to the new location )
+                     it will replace the content of the new location
+                     if it does not exit , it will create it
+append command >>  ( modify)
+
+
+cat mariam 2>>kjl
+
+
+12/16/2022
+cat/==========================================================================================================================
+
+&> redirect either negative or positive  echo abdoul &> mariam
+anything store in /dev/null will be lost 
+
+system file...........................................................................
+ls -l/ : long list
+
+/etc contain config files and packages
+
+dnf install httpd -y ( install apache configuration file)
+dnf remove http
+evince 
+
+/var 
+/var/log
+inside log run tail -10f messages
+            run tail 10f secure
+
+explore files inside log
+
+cat /..pwd
+/audit ( record system info like log)
+
+/tmp : content disapear automatically in 10 days, everybody can see the content
+df -h   file system have their own capacity
+the file system need to be monitor
+
+/dev : essential info on the devices
+lsblk display disc capacity
+
+Grep and regular expressions...........................................................
+
+cat charly.txt | grep miriam ( piping command: display charly and pipe your criteria)
+grep -iv mariam charly.txt (  return no mariam lower or upper case)
+grep -i ^class3 charly.txt  ( return any line starting with class3)
+head command display the first 10 lines by default
+head -n 1 display the first line
+head -n 2  display the first two lines
+cat charly.txt | grep "^prince"
+|wc -l return the number of lines matching our criteria ( wc = what count, -l = line, -w = number of words)
+
+grep -vi "prince$" ( do not return lines ending with prince
+grep "[abd]" charly.txt ( return lines containing those character)
+
+login and switch user in multi user......................................................
+target : system configuration file used for grouping
+
+interactive shell : you are acting like somebody else, like logging as root
+login shell : login as myself
+
+-------build specify server modifying installation......
+build rocky9 30g, 2048 ram, 2 cpu
+build alma9  30g 2048 ram, 2 cpu
+fullname : class5student
+password : student
+allow ssh connection and ..
+/ 10g (root)
+/boot 1g
+/home 5g
+/var  5g
+/swap 1024mg
+/app/class5
+
+
+12/22/2022
+--------------------------------------------------------------------------------------------------------------------------
+
+commands: hostnamectl set-hostname server name
+
+compress and decompress file ( zip and unzip)
+
+goal : reduce files and fast the transfer
+
+tar commands
+---------------------
+ll
+tar : does not compress the file but archive
+ touch hello world ( create 2 files) 
+
+tar -cf helloworld.tar hello world ( create a copy of hello and world in helloworld.tar)
+tar -tf  helloworld.tar ( display the 2 files in shell)
+tar -tvf helloword.tar ( verbose display more info such date, ....)
+tar -xf helloworld.tar   ( extract the two files from helloworld.tar) do not appear in the shell
+tar -xvf helloworld.tar ( same as previous but display in the shell)
+cat helloworld.tar  cannot cat this files
+
+cat/etc/passwd >> world ( append the file world wit the content of passwd
+ls -l /etc/ >> hello ( same appending)
+
+du -sh* ( display shell)
+
+tar -cvzf helloword.tar.gz hello world ( zip the files using gzip
+tar -cvjf helloword.tar.bz2 ( zip the file using bzip )tar
+
+gunzip helloworld.tar.gz ( unzip and return the original tar file with it size)  gzip
+
+two types of backup : incremental and full backup
+
+extract and uncompress the files 
+tar -xvzf helloword.tar.gz
+tar -xvjf helloword.tar.bz2
+
+tgz = .tar.gz ( same thing)
+
+tar --help ( display tar options)
+
+star commands ( need to be install)
+-------------
+dnf command only redhat 8 to install package ( dnf install star)
+yum install star ( yum work with all redhat, centos, ....)
+yum clean all???
+
+yum repolist all
+yum epel
+
+how to install star commands in rock 9 and alma 8
+
+star -c f=archive.tar file1, file2
+rm -rf file* ( remove all files)
+start -t f=archive.tar ( display the content of the archive file)
+
+----------------------------------------------------------
+I don't always need tar to compress my file, I can compress any file directly
+
+gzip file1 ( compress)
+gzip -d  file1.gz ( unzip)
+gunzip file1.gz ( unzip) return to the tar file
+
+zip commands ( work like tar)
+---------------
+
+bzip2 commands ( work like gzip)
+---------------
+
+Download apache -nifi
+ping website
+wget website/zip file
+
+kafka jobs ( java kafka) ??/ knowing those tools
+nifi jobs??
+
+create hard and soft link
+-----------------------------------------------------------
+soft link: symlinks is a soft link that connect one file to another symbolically ( inode are different)
+
+ln -s /root/charly.txtx /tmp/california  ( r =4, w=2, x = 1 rwxrwxrwx 777 symlinks permission)
+in tmp directory california will point to charly,txt
+symlinks always start with l
+if we move the target, the symlink will act like it is looking for the target ( become red)
+
+hard link : default permission 664 ( -rw--r--r
+ln 
+hard link does not show any target and remain having the same content even though we move or delete the pointing file
+inode are like 35245877 and are the same
+================================================
+difference between hardlink and softlink  ???
+===================================================
+
+File and directory permission
+the first - is the type of directory/file/links
+-rw-r--r--
+rw- (owner or user permission)
+r--( group of the users using the file)
+r--(other, everyone else)
+
+r = readeable  w= writeable x = executable - = denied
+
+change mod command : chmod
+
+owner : u ( first three)
+group : g  ( second three)
+o : other ( last three) 
+
+
+
+12/23/2022
+=============================================================================================
+octal bits
+r = 4 ( read)
+w = 2 (write)
+x = 1 ( execute)
+
+example : chmod 600 filename ( octa mode) 
+
+          6 ( first three which means permissions r =4 + w = 2, so rw-)
+          0 ( second three which means  permissions denied three times ---)
+          0 ( last three which means  permissions denied three times ---)
+so the previous command will lead to the following permission -rw- --- ---
+
+chmod 777 filename to give all permission to everybody
+
+
+chmod example alaphanumeric mode
+To add the permission execute on the user on the file charly.txt that have -rw- r-- r--
+we run : chmod u+x charly.txt
+To add the permission execute on the user, group and other, on the file charly.txt that have -rw- r-- r--
+we run : chmod ugo+x charly.txt
+To retrieve the permission execute on the user on the file charly.txt that have -rw- r-- r--
+we run : chmod u-x charly.txt
+chmod u+rw, g+r-x, o-rwx ?? permission r and x will be add to group
+chmod a+x add executable permission to all three types of users
+
+# change owner and group
+cmd:
+chown <<newonwer name>> filename or directory name
+chown root charly.txt ( root becomes the owner of charly.txt)
+
+groupadd <<groupname>> to add a group
+ex: groupadd finance
+tips : usermod command allow to modify user account info
+usermod -a -G finance student ( add student to group finance)
+id student ( return student and group iDs)
+
+chown student.finance charly.txt ( change the owner and the group at the same time) or 
+chown student : finance charly.txt
+
+to change only the group, do chown .finance charly.txt
+
+Note: changing the group of a folder do not change the group of it content..unless we use the
+recursive. for example let say charly.txt is in the directory class5
+
+chown -R.finance class5 will change the folder class5 group to finance and every file or folder inside class5 will 
+therefore have finance as group
+
+
+To change the group ownweship, you can run
+chgrp <new owner name>  <filename or folder>
+
+# Setuid : set user ID permission on executable file (x permission on that file will be replaced by s)
+if permission line for owner look like -rwx------, then run
+chmod u+xs filename.txt or chmod 4700 filename.txt ( le chiffre 4 set id), after the user permission will be -rws------
+note : go online to get sample of linux system info script, crearte a vim file with extension sh and paste the script, this is an example 
+of executable file, but we will need permission to run that file.
+To run the script file name system-info.sh, do ./system-info.sh
+
+#Setgid : set group permission on executable file
+chmod 671 filename ( put group level to 7 which means rwx)
+now run chmod 2671 ( the 2 at the begining will replace group x to s)
+we can also run chmod g+rwxs to do the same thing
+
+If we have to setuid and setgid on the same file using octal mode, we need to add 4+2 = 6 before the rest of the three digit
+
+
+
+/////  How to run without setuid and setgid ///////
+why setuid and setgid : because we want some users or group to execute a file withoiut being root or sudo or having super privileges
+cmd : ps -ef ( process on linux use setuid/setgid)
+
+ls /etc/shadow is the file where we see all the users passwords . Once the user update his password, it will be updated in the shadow file
+cat ls /etc/shadow | grep prince ( will select the line having prince)
+
+
+# sticky bit : a bit set on a directory that allow only the owner or the root can delete file and subdirectory. File can be written in that directory by anyone.
+for example the folder having the permission drwxrwxrwt has sticky bit due to the letter t at the end
+ex: chmod 1777 filename or  chmod o+t filename ( create sticky bit on the other level, 1 in the front for other, 2 for setgid, 4 for setuid)
+chmod o-t filename (remove sticky bit)
+create 2 folders in /tmp in the root and try to remove them ...permission will be denied
+
+
+/////// UMASK////////////////////////////
+UMask controi the default permission with no execute permission while directory has execute permission per default.
+
+Umask default permission 0022 for root,  0002 for non privilege user, for a new created  directory 0777 and for files 0666
+
+
+
+
+
+
+
+
+
+
+
